@@ -1,0 +1,56 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bswe-vcluster
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: demo
+          # - name: a
+          # - name: b
+          # - name: c
+          # - name: d
+          # - name: e
+          # - name: f
+  template:
+    metadata:
+      name: "cluster-group-{{ .name }}"
+      namespace: fh-burgenland-argocd
+    spec:
+      project: default
+      ignoreDifferences:
+        - kind: Secret
+          jsonPointers:
+            - /data/CONFIG_READY
+            - /data/config.yaml
+      source:
+        repoURL: https://github.com/muhlba91/fh-burgenland-bswe-cluster-applications
+        path: charts/vcluster
+        targetRevision: HEAD
+        helm:
+          releaseName: "cluster-{{ .name }}"
+          valuesObject:
+            vcluster-k0s:
+              ingress:
+                host: "cluster-{{ .name }}.classroom.bswe.fh-burgenland.muehlbachler.xyz"
+              syncer:
+                extraArgs:
+                  - --tls-san={{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz
+                  - --out-kube-config-server=https://{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz
+                  - --mount-physical-host-paths=true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "cluster-{{ .name }}"
+      syncPolicy:
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
+        syncOptions:
+          - RespectIgnoreDifferences=true
+          - CreateNamespace=true
+          - FailOnSharedResource=true

@@ -1,0 +1,50 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bswe-demo-app
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: demo
+          # - name: a
+          # - name: b
+          # - name: c
+          # - name: d
+          # - name: e
+          # - name: f
+  template:
+    metadata:
+      name: "cluster-demo-app-group-{{ .name }}"
+      namespace: fh-burgenland-argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/muhlba91/fh-burgenland-bswe-cluster-applications
+        path: charts/demo-app
+        targetRevision: HEAD
+        helm:
+          releaseName: demo-app
+          valuesObject:
+            group: "{{ .name }}"
+            ingress:
+              enabled: true
+              hosts:
+                - host: "demo.{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz"
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+      destination:
+        server: "https://{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz"
+        namespace: demo
+      syncPolicy:
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - FailOnSharedResource=true

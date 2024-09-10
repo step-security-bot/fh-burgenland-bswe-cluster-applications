@@ -1,0 +1,6 @@
+dependencies:
+- name: vcluster-hpm
+  repository: https://charts.loft.sh
+  version: 0.1.1
+digest: sha256:eb4816f7e52df0f96e3888195d6e4c989e379d17789b278ec63332d23568f23f
+generated: "2024-09-10T14:47:50.190902+02:00"

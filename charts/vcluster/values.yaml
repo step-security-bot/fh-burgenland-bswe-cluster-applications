@@ -1,0 +1,55 @@
+---
+vcluster-k0s:
+  vcluster:
+    image: k0sproject/k0s:v1.30.4+k0s
+    resources:
+      limits:
+        memory: 1Gi
+        cpu: 500m
+
+  sync:
+    ingresses:
+      enabled: true
+    persistentvolumes:
+      enabled: true
+    storageclasses:
+      enabled: true
+
+  proxy:
+    metricsServer:
+      nodes:
+        enabled: true
+      pods:
+        enabled: true
+
+  syncer:
+    extraArgs:
+      - --mount-physical-host-paths=true
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: 500m
+        ephemeral-storage: 2Gi
+    storage:
+      className: openebs-hostpath
+      size: 1Gi
+
+  ingress:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.tls: "true"
+
+  coredns:
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 500m
+
+  isolation:
+    enabled: true
+    resourceQuota:
+      enabled: false
+    limitRange:
+      enabled: false
+    networkPolicy:
+      enabled: true

@@ -1,0 +1,55 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bswe-docusaurus
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - pullRequest:
+        github:
+          owner: muhlba91
+          repo: fh-burgenland-bswe-docusaurus
+        filters:
+          - branchMatch: ".*-preview"
+        requeueAfterSeconds: 300
+  template:
+    metadata:
+      name: "docusaurus-preview-{{ .number }}"
+      namespace: fh-burgenland-argocd
+      annotations:
+        notifications.argoproj.io/subscribe.on-deployed.github: ""
+        revision: "{{ .head_sha }}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/muhlba91/fh-burgenland-bswe-cluster-applications
+        path: charts/docusaurus
+        targetRevision: HEAD
+        helm:
+          image:
+            repository: quay.io/muhlba91/fh-burgenland-bswe-docusaurus
+            tag: "{{ .head_sha }}"
+          ingress:
+            enabled: true
+            hosts:
+              - host: "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
+                paths:
+                  - path: /
+                    pathType: ImplementationSpecific
+            tls:
+              - secretName: docusaurus-tls-cert
+                hosts:
+                  - "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "docusaurus-preview-{{ .number }}"
+      syncPolicy:
+        automated:
+          prune: true
+          allowEmpty: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - FailOnSharedResource=true
