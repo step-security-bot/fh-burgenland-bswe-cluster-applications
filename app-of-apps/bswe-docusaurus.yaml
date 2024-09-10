@@ -28,20 +28,21 @@ spec:
         path: charts/docusaurus
         targetRevision: HEAD
         helm:
-          image:
-            repository: quay.io/muhlba91/fh-burgenland-bswe-docusaurus
-            tag: "{{ .head_sha }}"
-          ingress:
-            enabled: true
-            hosts:
-              - host: "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
-                paths:
-                  - path: /
-                    pathType: ImplementationSpecific
-            tls:
-              - secretName: docusaurus-tls-cert
-                hosts:
-                  - "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
+          valuesObject:
+            image:
+              repository: quay.io/muhlba91/fh-burgenland-bswe-docusaurus
+              tag: "{{ .head_sha }}"
+            ingress:
+              enabled: true
+              hosts:
+                - host: "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
+                  paths:
+                    - path: /
+                      pathType: ImplementationSpecific
+              tls:
+                - secretName: docusaurus-tls-cert
+                  hosts:
+                    - "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
       destination:
         server: https://kubernetes.default.svc
         namespace: "docusaurus-preview-{{ .number }}"
