@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./quota.yaml
+  - ./ghcr-secret.yaml
   - ./appproject.yaml
   # - ./application.yaml # FIXME: include once repository is available

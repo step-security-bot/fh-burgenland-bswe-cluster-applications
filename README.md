@@ -38,6 +38,7 @@ It defines the following resources:
 - `Namespace`: the group's namespace
 - `ResourceQuota`s: the group's namespace quotas (CPU, memory, storage, pods, services, etc.)
 - `LimitRange`: the group's namespace limits (CPU, memory)
+- `Secret`: the group's GHCR credentials (synchronized with the reflector)
 - `AppProject`: the group's ArgoCD project
 - `Application`: the group's ArgoCD app-of-apps application referencing the BSWE private repository
 

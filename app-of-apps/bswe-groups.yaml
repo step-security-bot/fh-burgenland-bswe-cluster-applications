@@ -33,6 +33,11 @@ spec:
       name: "group-{{ .group }}-infrastructure"
     spec:
       project: default
+      ignoreDifferences:
+        - kind: Secret
+          name: ghcr-credentials
+          jsonPointers:
+            - /data/.dockerconfigjson
       source:
         repoURL: https://github.com/muhlba91/fh-burgenland-bswe-cluster-applications
         path: kustomizations/group
@@ -100,6 +105,12 @@ spec:
                 - op: add
                   path: /metadata/namespace
                   value: "group-{{ .group }}"
+            - target:
+                kind: Secret
+              patch: |-
+                - op: add
+                  path: /metadata/namespace
+                  value: "group-{{ .group }}"
       destination:
         server: https://kubernetes.default.svc
         namespace: fh-burgenland-argocd
@@ -108,3 +119,5 @@ spec:
           prune: true
           allowEmpty: true
           selfHeal: true
+        syncOptions:
+          - RespectIgnoreDifferences=true
