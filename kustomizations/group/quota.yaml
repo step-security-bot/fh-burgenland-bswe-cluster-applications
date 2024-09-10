@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: group-quota-resources
+spec:
+  hard:
+    requests.cpu: 512m
+    requests.memory: 1Gi
+    requests.storage: 0Gi
+    requests.ephemeral-storage: 0Gi
+    limits.cpu: "1"
+    limits.memory: 2Gi
+    limits.ephemeral-storage: 0Gi
+
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: group-quota-objects
+spec:
+  hard:
+    pods: "3"
+    services: "3"
+    services.nodeports: "0"
+    services.loadbalancers: "0"
+    configmaps: "5"
+    secrets: "5"
+    persistentvolumeclaims: "0"
+
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: group-limit-range
+spec:
+  limits:
+    - default:
+        memory: 128Mi
+        cpu: 250m
+      defaultRequest:
+        memory: 64Mi
+        cpu: 10m
+      min:
+        memory: 4Mi
+        cpu: 1m
+      max:
+        memory: 1Gi
+        cpu: 512m
+      type: Container

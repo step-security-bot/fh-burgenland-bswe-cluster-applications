@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: group
+spec:
+  permitOnlyProjectScopedClusters: true
+  description: Group
+  sourceRepos:
+    - '*'
+  sourceNamespaces:
+    - fh-burgenland-argocd
+  destinations:
+    - namespace: group
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: Deployment
+    - group: '*'
+      kind: StatefulSet
+    - group: '*'
+      kind: ConfigMap
+    - group: '*'
+      kind: Secret
+    - group: '*'
+      kind: Ingress
