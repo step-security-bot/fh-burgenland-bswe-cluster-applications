@@ -3,6 +3,7 @@ extends: default
 
 ignore:
   - secret-*.enc.yml
+  - charts/**
 
 rules:
   line-length:
