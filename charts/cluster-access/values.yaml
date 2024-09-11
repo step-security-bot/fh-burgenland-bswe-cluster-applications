@@ -69,7 +69,7 @@ volumeMounts:
   - name: cluster-config
     mountPath: /usr/share/nginx/html/files/
     readOnly: false
-  - name: cluster-config
+  - name: nginx-config
     mountPath: /etc/nginx/conf.d/
     readOnly: true
 

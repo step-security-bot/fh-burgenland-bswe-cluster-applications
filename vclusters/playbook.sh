@@ -21,3 +21,5 @@ done
 # kubectl -n access-config cp vclusters/cluster-group-6.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
 # kubectl -n access-config cp vclusters/cluster-group-7.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
 # kubectl -n access-config cp vclusters/cluster-group-8.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
+
+kubectl -n fh-burgenland-bswe-cluster-access get pod -l  "app.kubernetes.io/name=cluster-access" -o jsonpath="{.items[0].metadata.name}" | xargs -I {} kubectl -n fh-burgenland-bswe-cluster-access cp vclusters/configs/cluster-*.zip {}:/usr/share/nginx/html/files/
