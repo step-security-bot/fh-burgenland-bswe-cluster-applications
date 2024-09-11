@@ -1,0 +1,80 @@
+---
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  automount: false
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: cluster-issuer-muehlbachler-xyz
+    external-dns.alpha.kubernetes.io/provider: public
+    external-dns.alpha.kubernetes.io/target: 178.63.69.250,2a01:4f8:121:14e2:100:3:3:1
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 32Mi
+  requests:
+    cpu: 5m
+    memory: 16Mi
+
+autoscaling:
+  enabled: false
+
+storage:
+  storageClassName: zfs
+  requests:
+    size: 8Mi
+
+volumes:
+  - name: cluster-config
+    persistentVolumeClaim:
+      claimName: cluster-config
+  - name: nginx-config
+    configMap:
+      name: nginx-config
+
+volumeMounts:
+  - name: cluster-config
+    mountPath: /usr/share/nginx/html/files/
+    readOnly: false
+  - name: cluster-config
+    mountPath: /etc/nginx/conf.d/
+    readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,10 @@
+---
+apiVersion: v2
+name: cluster-access
+description: Configurized nginx to serve Kubernetes cluster configuration files
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.27.1-alpine"
