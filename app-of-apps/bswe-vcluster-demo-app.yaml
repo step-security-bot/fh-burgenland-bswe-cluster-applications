@@ -37,6 +37,10 @@ spec:
                   paths:
                     - path: /
                       pathType: ImplementationSpecific
+              tls:
+              - secretName: "fh-burgenland-bswe-group-{{ .name }}-demo-tls"
+                hosts:
+                  - "demo.{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz"
       destination:
         name: "cluster-{{ .name }}"
         namespace: demo
