@@ -38,7 +38,7 @@ spec:
                     - path: /
                       pathType: ImplementationSpecific
       destination:
-        server: "https://{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz"
+        name: "cluster-{{ .name }}"
         namespace: demo
       syncPolicy:
         automated:
