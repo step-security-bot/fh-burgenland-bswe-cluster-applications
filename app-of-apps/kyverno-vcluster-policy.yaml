@@ -46,7 +46,7 @@ spec:
       generate:
         kind: Secret
         apiVersion: v1
-        name: "{{ vclusterName }}"
+        name: "vcluster-{{ vclusterName }}"
         namespace: fh-burgenland-argocd
         synchronize: true
         data:
