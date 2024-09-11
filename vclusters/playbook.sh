@@ -12,14 +12,5 @@ for cluster in ${CLUSTER_IDS}; do
     zip -ejq vclusters/configs/cluster-${cluster}.zip vclusters/configs/cluster-${cluster}.conf -P ${ZIP_PASSWORD}
 done
 
-# kubectl -n access-config get pod
-# kubectl -n access-config cp vclusters/cluster-group-1.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-2.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-3.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-4.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-5.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-6.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-7.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-# kubectl -n access-config cp vclusters/cluster-group-8.zip access-config-access-app-5f555db6d6-5khck:/usr/share/nginx/html/files/
-
+echo "copying configuration to the cluster-access pod..."
 kubectl -n fh-burgenland-bswe-cluster-access get pod -l  "app.kubernetes.io/name=cluster-access" -o jsonpath="{.items[0].metadata.name}" | xargs -I {} kubectl -n fh-burgenland-bswe-cluster-access cp vclusters/configs/cluster-*.zip {}:/usr/share/nginx/html/files/
