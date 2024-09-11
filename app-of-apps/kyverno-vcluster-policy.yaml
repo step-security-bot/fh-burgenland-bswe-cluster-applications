@@ -31,13 +31,13 @@ spec:
           variable:
             value: "{{ request.object.metadata.name }}"
         - name: ca
-          variable: 
+          variable:
             value: "{{ request.object.data.\"certificate-authority\" }}"
         - name: cert
-          variable: 
+          variable:
             value: "{{ request.object.data.\"client-certificate\" }}"
         - name: key
-          variable: 
+          variable:
             value: "{{ request.object.data.\"client-key\" }}"
         - name: vclusterName
           variable:
