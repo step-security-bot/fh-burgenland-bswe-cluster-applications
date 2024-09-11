@@ -39,6 +39,7 @@ spec:
                 host: "{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz"
               syncer:
                 extraArgs:
+                  - --tls-san=cluster-{{ .name }}.cluster-{{ .name }}
                   - --tls-san={{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz
                   - --out-kube-config-server=https://{{ .name }}.cluster.classroom.bswe.fh-burgenland.muehlbachler.xyz
                   - --mount-physical-host-paths=true
