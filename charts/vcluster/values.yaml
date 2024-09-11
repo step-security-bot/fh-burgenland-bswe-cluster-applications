@@ -18,9 +18,9 @@ vcluster-k0s:
   proxy:
     metricsServer:
       nodes:
-        enabled: true
+        enabled: false
       pods:
-        enabled: true
+        enabled: false
 
   syncer:
     extraArgs:
