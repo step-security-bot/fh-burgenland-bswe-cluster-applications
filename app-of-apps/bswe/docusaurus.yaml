@@ -45,7 +45,7 @@ spec:
                     - "preview-{{ .number }}.docusaurus.demo.bswe.fh-burgenland.muehlbachler.xyz"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "docusaurus-preview-{{ .number }}"
+        namespace: docusaurus-preview-{{ .number }}
       syncPolicy:
         automated:
           prune: true

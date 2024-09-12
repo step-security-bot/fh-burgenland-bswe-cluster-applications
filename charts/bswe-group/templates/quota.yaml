@@ -3,6 +3,8 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: group-quota-resources
+  labels:
+    {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
   hard:
     requests.cpu: 512m
@@ -18,6 +20,8 @@ apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: group-quota-objects
+  labels:
+    {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
   hard:
     pods: "3"
@@ -33,6 +37,8 @@ apiVersion: v1
 kind: LimitRange
 metadata:
   name: group-limit-range
+  labels:
+    {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
   limits:
     - default:

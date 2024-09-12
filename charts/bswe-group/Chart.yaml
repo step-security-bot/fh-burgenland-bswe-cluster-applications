@@ -1,0 +1,10 @@
+---
+apiVersion: v2
+name: bswe-group
+description: Installs all the components for the BSWE group
+
+type: application
+
+version: 0.1.0
+
+appVersion: "0.0.0"

@@ -10,6 +10,8 @@ rules:
     max: 160
   comments:
     min-spaces-from-content: 1
+  braces:
+    max-spaces-inside: 1
   truthy:
     ignore:
       - .github/

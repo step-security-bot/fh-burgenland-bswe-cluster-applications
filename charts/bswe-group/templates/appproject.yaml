@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: fh-burgenland-bswe-group-{{ .Values.group }}
+  namespace: fh-burgenland-argocd
+  labels:
+    {{- include "bswe-group.labels" . | nindent 4 }}
+spec:
+  permitOnlyProjectScopedClusters: false
+  description: FH Burgenland BSWE Group {{ .Values.group }}
+  sourceRepos:
+    - '*'
+  sourceNamespaces:
+    - fh-burgenland-argocd
+    - {{ .Release.Namespace }}
+  destinations:
+    - namespace: {{ .Release.Namespace }}
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: Deployment
+    - group: '*'
+      kind: StatefulSet
+    - group: '*'
+      kind: ConfigMap
+    - group: '*'
+      kind: Secret
+    - group: '*'
+      kind: Ingress
+  roles:
+    - name: fh-burgenland-bswe-group-{{ .Values.group }}
+      description: "privileges to group-{{ .Values.group }}"
+      policies:
+        - "p, proj:fh-burgenland-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, get, fh-burgenland-bswe-group-{{ .Values.group }}/*, allow"
+        - "p, proj:fh-burgenland-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, update/*, fh-burgenland-bswe-group-{{ .Values.group }}/*, allow"
+        - "p, proj:fh-burgenland-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, delete/*, fh-burgenland-bswe-group-{{ .Values.group }}/*, allow"
+        - "p, proj:fh-burgenland-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, logs, get, fh-burgenland-bswe-group-{{ .Values.group }}/*, allow"
+      groups:
+        - {{ .Values.accessPrefix }}{{ .Values.group }}
+      {{- if .Values.additionalAccessGroup }}
+        - {{ .Values.accessPrefix }}{{ .Values.additionalAccessGroup }}
+      {{- end }}

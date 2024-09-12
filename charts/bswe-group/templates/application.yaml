@@ -1,0 +1,23 @@
+{{ if .Values.repoURL -}}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bswe-group-{{ .Values.group }}-app-of-apps
+  labels:
+    {{- include "bswe-group.labels" . | nindent 4 }}
+spec:
+  project: fh-burgenland-bswe-group-{{ .Values.group }}
+  source:
+    path: applications/group-{{ .Values.group }}
+    repoURL: {{ .Values.repoURL }}
+    targetRevision: HEAD
+  destination:
+    namespace: {{ .Release.Namespace }}
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true
+      selfHeal: true
+{{- end }}

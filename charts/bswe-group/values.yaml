@@ -1,0 +1,6 @@
+---
+group: X
+accessPrefix: "fh-org:group-"
+additionalAccessGroup: "a"
+
+repoURL: ""

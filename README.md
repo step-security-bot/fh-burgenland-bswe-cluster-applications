@@ -19,7 +19,7 @@ The repository follows the app-of-apps pattern.
 
 The first `Application` being defined needs to reference [`app-of-apps/`](app-of-apps/).
 
-These are bootstrapping the main applications, referring to the respective `kustomizations/<application>/` and `charts/<application>`:
+These are bootstrapping the main applications, referring to the respective `charts/<application>`:
 
 - [`group`](#group): the BSWE group infrastructure
 - [`vcluster`](#vcluster): the vcluster
@@ -31,24 +31,19 @@ Each of these applications follows the app-of-apps pattern again, if necessary.
 
 ---
 
-## Kustomizations
+## Charts
 
 ### Group
 
-The `group` kustomization creates necessary infrastructure for one BSWE group. It is patched by an `ApplicationSet` defined in the `app-of-apps` application.
+The `group` chart creates necessary infrastructure for one BSWE group. It is patched by an `ApplicationSet` defined in the `app-of-apps` application.
 
 It defines the following resources:
 
-- `Namespace`: the group's namespace
 - `ResourceQuota`s: the group's namespace quotas (CPU, memory, storage, pods, services, etc.)
 - `LimitRange`: the group's namespace limits (CPU, memory)
 - `Secret`: the group's GHCR credentials (synchronized with the reflector)
 - `AppProject`: the group's ArgoCD project
 - `Application`: the group's ArgoCD app-of-apps application referencing the BSWE private repository
-
----
-
-## Charts
 
 ### Cluster Access
 

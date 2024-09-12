@@ -10,27 +10,10 @@ spec:
     - list:
         elements:
           - group: demo
-          # - group: a
-          # - group: b
-          # - group: c
-          # - group: d
-          # - group: e
-          # - group: f
-          # - group: g
-          # - group: h
-          # - group: i
-          # - group: j
-          # - group: k
-          # - group: l
-          # - group: aa
-          # - group: bb
-          # - group: cc
-          # - group: dd
-          # - group: ee
-          # - group: ff
+            additionalAccessGroup: ""
   template:
     metadata:
-      name: "group-{{ .group }}-infrastructure"
+      name: "bswe-group-{{ .group }}-infrastructure"
     spec:
       project: default
       ignoreDifferences:
@@ -40,80 +23,15 @@ spec:
             - /data/.dockerconfigjson
       source:
         repoURL: https://github.com/muhlba91/fh-burgenland-bswe-cluster-applications
-        path: kustomizations/group
+        path: charts/bswe-group
         targetRevision: HEAD
-        kustomize:
-          patches:
-            - target:
-                kind: Namespace
-              patch: |-
-                - op: replace
-                  path: /metadata/name
-                  value: "group-{{ .group }}"
-            - target:
-                kind: AppProject
-              patch: |-
-                - op: replace
-                  path: /metadata/name
-                  value: "group-{{ .group }}"
-                - op: replace
-                  path: /spec/description
-                  value: "Group {{ .group }}"
-                - op: add
-                  path: /spec/sourceNamespaces/1
-                  value: "group-{{ .group }}"
-                - op: replace
-                  path: /spec/destinations/0/namespace
-                  value: "group-{{ .group }}"
-                - op: add
-                  path: /spec/roles
-                  value:
-                    - name: "group-{{ .group }}"
-                      description: "group-{{ .group }} privileges to group-{{ .group }}"
-                      policies:
-                        - "p, proj:group-{{ .group }}:group-{{ .group }}, applications, get, group-{{ .group }}/*, allow"
-                        - "p, proj:group-{{ .group }}:group-{{ .group }}, applications, update/*, group-{{ .group }}/*, allow"
-                        - "p, proj:group-{{ .group }}:group-{{ .group }}, applications, delete/*, group-{{ .group }}/*, allow"
-                        - "p, proj:group-{{ .group }}:group-{{ .group }}, logs, get, group-{{ .group }}/*, allow"
-                      groups:
-                        - "fh-org:swm2-group-{{ .group }}"
-            # FIXME: enable when correct repository URL is set
-            # - target:
-            #     kind: Application
-            #   patch: |-
-            #     - op: replace
-            #       path: /metadata/name
-            #       value: "group-{{ .group }}-app-of-apps"
-            #     - op: replace
-            #       path: /spec/project
-            #       value: "group-{{ .group }}
-            #     - op: replace
-            #       path: /spec/destination/namespace
-            #       value: "group-{{ .group }}"
-            #     - op: replace
-            #       path: /spec/source/path
-            #       value: "applications/group-{{ .group }}"
-            - target:
-                kind: ResourceQuota
-              patch: |-
-                - op: add
-                  path: /metadata/namespace
-                  value: "group-{{ .group }}"
-            - target:
-                kind: LimitRange
-              patch: |-
-                - op: add
-                  path: /metadata/namespace
-                  value: "group-{{ .group }}"
-            - target:
-                kind: Secret
-              patch: |-
-                - op: add
-                  path: /metadata/namespace
-                  value: "group-{{ .group }}"
+        helm:
+          valuesObject:
+            group: "{{ .group }}"
+            additionalAccessGroup: "{{ .additionalAccessGroup }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: fh-burgenland-argocd
+        namespace: fh-burgenland-bswe-group-{{ .group }}
       syncPolicy:
         automated:
           prune: true
@@ -121,3 +39,5 @@ spec:
           selfHeal: true
         syncOptions:
           - RespectIgnoreDifferences=true
+          - CreateNamespace=true
+          - FailOnSharedResource=true
