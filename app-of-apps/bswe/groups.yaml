@@ -31,7 +31,7 @@ spec:
             additionalAccessGroup: "{{ .additionalAccessGroup }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: fh-burgenland-bswe-group-{{ .group }}
+        namespace: fh-bswe-group-{{ .group }}
       syncPolicy:
         automated:
           prune: true

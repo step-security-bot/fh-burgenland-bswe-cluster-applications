@@ -13,4 +13,4 @@ for cluster in ${CLUSTER_IDS}; do
 done
 
 echo "copying configuration to the cluster-access pod..."
-kubectl -n fh-burgenland-bswe-cluster-access get pod -l  "app.kubernetes.io/name=cluster-access" -o jsonpath="{.items[0].metadata.name}" | xargs -I {} kubectl -n fh-burgenland-bswe-cluster-access cp vclusters/configs/cluster-*.zip {}:/usr/share/nginx/html/files/
+kubectl -n fh-burgenland-bswe-cluster-access get pod -l  "app.kubernetes.io/name=cluster-access" -o jsonpath="{.items[0].metadata.name}" | xargs -I {} kubectl -n fh-bswe-cluster-access cp vclusters/configs/cluster-*.zip {}:/usr/share/nginx/html/files/

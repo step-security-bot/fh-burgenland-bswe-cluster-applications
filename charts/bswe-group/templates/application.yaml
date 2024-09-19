@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
-  project: fh-burgenland-bswe-group-{{ .Values.group }}
+  project: fh-bswe-group-{{ .Values.group }}
   source:
     path: applications/group-{{ .Values.group }}
     repoURL: {{ .Values.repoURL }}
