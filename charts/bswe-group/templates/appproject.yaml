@@ -42,7 +42,7 @@ spec:
         - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, logs, get, fh-bswe-group-{{ .Values.name }}/*, allow"
       groups:
       {{- if .Values.accessGroup1 }}
-        - {{ .Values.accessGroup1 }}{{ .Values.accessGroup1 }}
+        - {{ .Values.accessPrefix }}{{ .Values.accessGroup1 }}
       {{- else }}
         - {{ .Values.accessPrefix }}{{ .Values.name }}
       {{- end }}

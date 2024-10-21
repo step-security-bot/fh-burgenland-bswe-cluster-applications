@@ -10,7 +10,7 @@ spec:
     - list:
         elements:
           - name: demo
-            accessGroup1: ""
+            accessGroup1: "dmuehlbachler"
             accessGroup2: ""
   template:
     metadata:
