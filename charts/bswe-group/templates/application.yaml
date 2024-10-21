@@ -3,13 +3,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bswe-group-{{ .Values.group }}-app-of-apps
+  name: bswe-group-{{ .Values.name }}-app-of-apps
   labels:
     {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
-  project: fh-bswe-group-{{ .Values.group }}
+  project: fh-bswe-group-{{ .Values.name }}
   source:
-    path: applications/group-{{ .Values.group }}
+    path: applications/group-{{ .Values.name }}
     repoURL: {{ .Values.repoURL }}
     targetRevision: HEAD
   destination:

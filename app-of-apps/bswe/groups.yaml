@@ -9,11 +9,12 @@ spec:
   generators:
     - list:
         elements:
-          - group: demo
-            additionalAccessGroup: ""
+          - name: demo
+            accessGroup1: ""
+            accessGroup2: ""
   template:
     metadata:
-      name: "bswe-group-{{ .group }}-infrastructure"
+      name: "bswe-group-{{ .name }}-infrastructure"
     spec:
       project: default
       ignoreDifferences:
@@ -27,11 +28,12 @@ spec:
         targetRevision: HEAD
         helm:
           valuesObject:
-            group: "{{ .group }}"
-            additionalAccessGroup: "{{ .additionalAccessGroup }}"
+            name: "{{ .name }}"
+            accessGroup1: "{{ .accessGroup1 }}"
+            accessGroup2: "{{ .accessGroup2 }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: fh-bswe-group-{{ .group }}
+        namespace: fh-bswe-group-{{ .name }}
       syncPolicy:
         automated:
           prune: true

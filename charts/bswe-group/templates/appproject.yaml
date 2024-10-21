@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: fh-bswe-group-{{ .Values.group }}
+  name: fh-bswe-group-{{ .Values.name }}
   namespace: fh-burgenland-argocd
   labels:
     {{- include "bswe-group.labels" . | nindent 4 }}
 spec:
   permitOnlyProjectScopedClusters: false
-  description: FH Burgenland BSWE Group {{ .Values.group }}
+  description: FH Burgenland BSWE Group {{ .Values.name }}
   sourceRepos:
     - '*'
   sourceNamespaces:
@@ -33,15 +33,19 @@ spec:
     - group: '*'
       kind: Ingress
   roles:
-    - name: fh-bswe-group-{{ .Values.group }}
-      description: "privileges to group-{{ .Values.group }}"
+    - name: fh-bswe-group-{{ .Values.name }}
+      description: "privileges to group-{{ .Values.name }}"
       policies:
-        - "p, proj:fh-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, get, fh-bswe-group-{{ .Values.group }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, update/*, fh-bswe-group-{{ .Values.group }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, applications, delete/*, fh-bswe-group-{{ .Values.group }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.group }}:group-{{ .Values.group }}, logs, get, fh-bswe-group-{{ .Values.group }}/*, allow"
+        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, get, fh-bswe-group-{{ .Values.name }}/*, allow"
+        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, update/*, fh-bswe-group-{{ .Values.name }}/*, allow"
+        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, delete/*, fh-bswe-group-{{ .Values.name }}/*, allow"
+        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, logs, get, fh-bswe-group-{{ .Values.name }}/*, allow"
       groups:
-        - {{ .Values.accessPrefix }}{{ .Values.group }}
-      {{- if .Values.additionalAccessGroup }}
-        - {{ .Values.accessPrefix }}{{ .Values.additionalAccessGroup }}
+      {{- if .Values.accessGroup1 }}
+        - {{ .Values.accessGroup1 }}{{ .Values.accessGroup1 }}
+      {{- else }}
+        - {{ .Values.accessPrefix }}{{ .Values.name }}
+      {{- end }}
+      {{- if .Values.accessGroup2 }}
+        - {{ .Values.accessPrefix }}{{ .Values.accessGroup2 }}
       {{- end }}
