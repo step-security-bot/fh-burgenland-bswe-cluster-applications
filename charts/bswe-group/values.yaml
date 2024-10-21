@@ -2,6 +2,6 @@
 name: X
 accessGroup1: ""
 accessGroup2: ""
-accessPrefix: "fhburgenland-bswe:swsm2-ws2024-group-"
+accessPrefix: "fhburgenland-bswe:swm2-ws2024-group-"
 
 repoURL: https://github.com/fhburgenland-bswe/swm2-ws2024-kubernetes-applications.git

@@ -23,6 +23,10 @@ spec:
     - group: '*'
       kind: Deployment
     - group: '*'
+      kind: ReplicaSet
+    - group: '*'
+      kind: Pod
+    - group: '*'
       kind: StatefulSet
     - group: '*'
       kind: Service
@@ -36,10 +40,7 @@ spec:
     - name: fh-bswe-group-{{ .Values.name }}
       description: "privileges to group-{{ .Values.name }}"
       policies:
-        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, get, fh-bswe-group-{{ .Values.name }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, update/*, fh-bswe-group-{{ .Values.name }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, applications, delete/*, fh-bswe-group-{{ .Values.name }}/*, allow"
-        - "p, proj:fh-bswe-group-{{ .Values.name }}:group-{{ .Values.name }}, logs, get, fh-bswe-group-{{ .Values.name }}/*, allow"
+        - "p, proj:fh-bswe-group-{{ .Values.name }}:fh-bswe-group-{{ .Values.name }}, applications, *, *, allow"
       groups:
       {{- if .Values.accessGroup1 }}
         - {{ .Values.accessPrefix }}{{ .Values.accessGroup1 }}
